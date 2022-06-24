@@ -1,11 +1,13 @@
 import React from 'react';
 import { Box, Center, Input, Grid, Button, RadioGroup, Stack, Radio } from '@chakra-ui/react';
 import { useAppStore } from 'application/store';
+import { useNavigate } from 'react-router-dom';
 
 function Welcome() {
   const setPlayerName = useAppStore((store) => store.setPlayerName);
   const difficulty = useAppStore((store) => store.difficulty);
   const setDifficulty = useAppStore((store) => store.setDifficulty);
+  const navigate = useNavigate();
 
   return (
     <Center h="100vh">
@@ -29,7 +31,7 @@ function Welcome() {
             </Grid>
           </Center>
         </Box>
-        <Button>PLAY</Button>
+        <Button onClick={() => navigate('/categories')}>PLAY</Button>
       </Grid>
     </Center>
   );

@@ -16,6 +16,7 @@ const immer = (config) => (set, get, api) =>
 const appStore = (set) => ({
   playerName: 'test',
   difficulty: 'mid',
+  selectedCategory: 'Random',
   setPlayerName: (name) =>
     set((state) => {
       state.playerName = name;
@@ -23,6 +24,10 @@ const appStore = (set) => ({
   setDifficulty: (difficulty) =>
     set((state) => {
       state.difficulty = difficulty;
+    }),
+  setCategory: (category) =>
+    set((state) => {
+      state.selectedCategory = category;
     }),
 });
 
