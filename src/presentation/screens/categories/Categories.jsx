@@ -1,8 +1,10 @@
 import React from 'react';
 import { Grid, Center, Stack, Button } from '@chakra-ui/react';
 import Category from './components/Category';
+import { useNavigate } from 'react-router-dom';
 
 function Categories() {
+  const navigate = useNavigate();
   return (
     <Center width="100%" h="100vh">
       <Stack direction="column" width="60%" gap={6}>
@@ -12,7 +14,7 @@ function Categories() {
             <Category key={key} value={key} />
           ))}
         </Grid>
-        <Button>Start</Button>
+        <Button onClick={() => navigate('/questions')}>Start</Button>
       </Stack>
     </Center>
   );

@@ -17,6 +17,7 @@ const appStore = (set) => ({
   playerName: 'test',
   difficulty: 'mid',
   selectedCategory: 'Random',
+  timerCount: 0,
   setPlayerName: (name) =>
     set((state) => {
       state.playerName = name;
@@ -24,10 +25,17 @@ const appStore = (set) => ({
   setDifficulty: (difficulty) =>
     set((state) => {
       state.difficulty = difficulty;
+      if (difficulty === 'easy') state.timerCount = 90;
+      else if (difficulty === 'mid') state.timerCount = 60;
+      else state.timerCount = 30;
     }),
   setCategory: (category) =>
     set((state) => {
       state.selectedCategory = category;
+    }),
+  setTimerCount: (count) =>
+    set((state) => {
+      state.timerCount = count;
     }),
 });
 
