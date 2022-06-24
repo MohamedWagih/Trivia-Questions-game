@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { Welcome, NotFound } from './screens';
+import { Welcome, NotFound } from 'presentation/screens';
 
 function App() {
   return (

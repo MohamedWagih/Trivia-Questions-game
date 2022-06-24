@@ -1,10 +1,12 @@
 {
     "compilerOptions": {
-      "baseUrl": ".",
+      "baseUrl": "src",
       "paths": {
         "@/components/*": ["src/presentation/components/*"],
+        "@/application/*": ["src/application/*"],
         "@/store/*": ["src/application/store/*"]
       }
-    }
+    },
+    "include": ["src"]
   }
   
