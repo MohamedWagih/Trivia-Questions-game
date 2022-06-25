@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, ButtonGroup, Center, Heading, Stack } from '@chakra-ui/react';
 import Question from './components/Question';
 import { useAppStore } from 'application/store';
+import { useNavigate } from 'react-router-dom';
 
 function Questions() {
-  const timerCount = useAppStore((state) => state.timerCount);
-  const setTimerCount = useAppStore((state) => state.setTimerCount);
+  const navigate = useNavigate();
+  const timerLimit = useAppStore((state) => state.timerCount);
+  const [timerCount, setTimerCount] = useState(timerLimit);
 
   React.useEffect(() => {
     timerCount > 0 && setTimeout(() => setTimerCount(timerCount - 1), 1000);
+    if (timerCount === 0) {
+      navigate('/score');
+    }
   }, [timerCount]);
 
   return (
@@ -26,7 +31,7 @@ function Questions() {
         <Center>
           <ButtonGroup width="100%" flexDirection="row" justifyContent="space-around">
             <Button>Skip</Button>
-            <Button>Next</Button>
+            <Button onClick={() => navigate('/score')}>Next</Button>
           </ButtonGroup>
         </Center>
       </Stack>

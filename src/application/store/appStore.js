@@ -14,10 +14,10 @@ const immer = (config) => (set, get, api) =>
   );
 
 const appStore = (set) => ({
-  playerName: 'test',
+  playerName: 'player',
   difficulty: 'mid',
   selectedCategory: 'Random',
-  timerCount: 0,
+  timerCount: 60,
   setPlayerName: (name) =>
     set((state) => {
       state.playerName = name;

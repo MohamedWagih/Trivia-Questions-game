@@ -4,6 +4,7 @@ import { useAppStore } from 'application/store';
 import { useNavigate } from 'react-router-dom';
 
 function Welcome() {
+  const playerName = useAppStore((store) => store.playerName);
   const setPlayerName = useAppStore((store) => store.setPlayerName);
   const difficulty = useAppStore((store) => store.difficulty);
   const setDifficulty = useAppStore((store) => store.setDifficulty);
@@ -20,6 +21,7 @@ function Welcome() {
                 placeholder="Player Name"
                 size="lg"
                 onChange={(e) => setPlayerName(e.target.value)}
+                value={playerName}
               />
               <RadioGroup onChange={(value) => setDifficulty(value)} value={difficulty}>
                 <Stack direction="row">
