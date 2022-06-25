@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Center, Input, Grid, Button, RadioGroup, Stack, Radio } from '@chakra-ui/react';
 import { useAppStore } from 'application/store';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,12 @@ function Welcome() {
   const setPlayerName = useAppStore((store) => store.setPlayerName);
   const difficulty = useAppStore((store) => store.difficulty);
   const setDifficulty = useAppStore((store) => store.setDifficulty);
+  const initStoreState = useAppStore((store) => store.initStoreState);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    initStoreState();
+  }, []);
 
   return (
     <Center h="100vh">
@@ -26,7 +31,7 @@ function Welcome() {
               <RadioGroup onChange={(value) => setDifficulty(value)} value={difficulty}>
                 <Stack direction="row">
                   <Radio value="easy">Easy</Radio>
-                  <Radio value="mid">Medium</Radio>
+                  <Radio value="medium">Medium</Radio>
                   <Radio value="hard">Hard</Radio>
                 </Stack>
               </RadioGroup>

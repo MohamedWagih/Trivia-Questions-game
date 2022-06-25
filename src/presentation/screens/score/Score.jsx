@@ -2,10 +2,15 @@ import React from 'react';
 import { Center, Heading, Stack, Box, Button } from '@chakra-ui/react';
 import { useAppStore } from 'application/store';
 import { useNavigate } from 'react-router-dom';
+import Chart from 'react-apexcharts';
+import { secToHMS } from 'infrastructure/utils';
 
 function Score() {
   const navigate = useNavigate();
   const playerName = useAppStore((store) => store.playerName);
+  const totalPlayedTime = useAppStore((store) => store.totalPlayedTime);
+  const score = useAppStore((store) => store.score);
+  console.log('🚀 ~ Score ~ score', score);
   return (
     <Center h="100vh">
       <Stack gap={24}>
@@ -15,10 +20,26 @@ function Score() {
         <Center w="100%">
           <Stack direction="row" gap={24}>
             <Box bg="gray.300" padding={12}>
-              time
+              <Center>
+                <Stack>
+                  <Heading textAlign="center" as="h3" size="lg">
+                    Time
+                  </Heading>
+                  <Heading as="h3" size="lg">
+                    {secToHMS(totalPlayedTime)}
+                  </Heading>
+                </Stack>
+              </Center>
             </Box>
             <Box bg="gray.300" padding={12}>
-              chart
+              <Chart
+                type="pie"
+                width="380"
+                options={{
+                  labels: ['correct', 'wrong', 'skipped'],
+                }}
+                series={[score.correct, score.wrong, score.skipped]}
+              />
             </Box>
           </Stack>
         </Center>

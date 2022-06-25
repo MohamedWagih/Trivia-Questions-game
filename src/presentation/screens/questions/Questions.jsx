@@ -1,37 +1,90 @@
-import React, { useState } from 'react';
-import { Button, ButtonGroup, Center, Heading, Stack } from '@chakra-ui/react';
-import Question from './components/Question';
+import React, { useEffect, useState } from 'react';
+import { Button, ButtonGroup, Center, Skeleton, Stack, Heading } from '@chakra-ui/react';
 import { useAppStore } from 'application/store';
 import { useNavigate } from 'react-router-dom';
+import useGetQuestion from 'infrastructure/services/questions/useGetQuestion';
+import MCQuestion from './components/MCQuestion';
+import Timer from './components/Timer';
 
 function Questions() {
   const navigate = useNavigate();
-  const timerLimit = useAppStore((state) => state.timerCount);
-  const [timerCount, setTimerCount] = useState(timerLimit);
+  const incTotalPlayedTime = useAppStore((state) => state.incTotalPlayedTime);
+  const selectedCategory = useAppStore((state) => state.selectedCategory);
+  const difficulty = useAppStore((state) => state.difficulty);
+  const questionCounter = useAppStore((state) => state.questionCounter);
+  const incQuestionCounter = useAppStore((state) => state.incQuestionCounter);
+  const setQuestionCounter = useAppStore((state) => state.setQuestionCounter);
+  const incSkipped = useAppStore((state) => state.incSkipped);
+  const playedCategories = useAppStore((state) => state.playedCategories);
+  const submitCurrAnswer = useAppStore((state) => state.submitCurrAnswer);
 
-  React.useEffect(() => {
-    timerCount > 0 && setTimeout(() => setTimerCount(timerCount - 1), 1000);
-    if (timerCount === 0) {
+  const {
+    data: question,
+    isLoading: isLoadingQuestion,
+    refetch: fetchNewQuestion,
+    isFetching: isFetchingQuestion,
+  } = useGetQuestion(selectedCategory, difficulty);
+
+  useEffect(() => {
+    fetchNewQuestion();
+    const totalPlayedInterval = setInterval(() => {
+      incTotalPlayedTime();
+    }, 1000);
+    return () => {
+      clearInterval(totalPlayedInterval);
+    };
+  }, []);
+
+  useEffect(() => {
+    setQuestionCounter(0);
+  }, []);
+
+  const nextQuestion = () => {
+    incQuestionCounter();
+    submitCurrAnswer(question?.correct_answer);
+
+    if (questionCounter === 2 && playedCategories.length === 3) {
       navigate('/score');
+    } else if (questionCounter === 2) {
+      navigate('/categories');
+    } else {
+      fetchNewQuestion();
     }
-  }, [timerCount]);
+  };
+
+  const skipQuestion = () => {
+    incQuestionCounter();
+    incSkipped();
+    if (questionCounter === 2 && playedCategories.length === 3) {
+      navigate('/score');
+    } else if (questionCounter === 2) {
+      navigate('/categories');
+    } else {
+      fetchNewQuestion();
+    }
+  };
 
   return (
     <Center flexDirection="column" h="100vh">
-      <Heading>{timerCount}</Heading>
       <Stack width="60%" direction="column" gap={24}>
+        <Timer />
         <Center>
-          {/* <Question title="The Alps are a mountain range on which continent?" type="TF" /> */}
-          <Question
-            title="The Alps are a mountain range on which continent?"
-            type="MCQ"
-            answers={[1, 2, 3, 4]}
-          />
+          <Skeleton width="60%" isLoaded={!(isLoadingQuestion || isFetchingQuestion) && question}>
+            <MCQuestion
+              title={question?.question}
+              type="MCQ"
+              answers={[question?.correct_answer, ...(question?.incorrect_answers || [])]}
+            />
+          </Skeleton>
         </Center>
         <Center>
           <ButtonGroup width="100%" flexDirection="row" justifyContent="space-around">
-            <Button>Skip</Button>
-            <Button onClick={() => navigate('/score')}>Next</Button>
+            <Button isLoading={isLoadingQuestion || isFetchingQuestion} onClick={skipQuestion}>
+              Skip
+            </Button>
+            <Button isLoading={isLoadingQuestion || isFetchingQuestion} onClick={nextQuestion}>
+              Next
+            </Button>
           </ButtonGroup>
         </Center>
       </Stack>
