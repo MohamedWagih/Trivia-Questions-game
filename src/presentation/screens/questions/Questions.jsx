@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button, ButtonGroup, Center, Skeleton, Stack, Heading } from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { Button, ButtonGroup, Center, Skeleton, Stack } from '@chakra-ui/react';
 import { useAppStore } from 'application/store';
 import { useNavigate } from 'react-router-dom';
 import useGetQuestion from 'infrastructure/services/questions/useGetQuestion';
