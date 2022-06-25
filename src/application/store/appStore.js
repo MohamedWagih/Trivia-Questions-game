@@ -55,6 +55,10 @@ const appStore = (set) => ({
     set((state) => {
       state.selectedCategory = category;
     }),
+  setTimerCount: (count) =>
+    set((state) => {
+      state.timerCount = count;
+    }),
   decTimerCount: () =>
     set((state) => {
       state.timerCount -= 1;

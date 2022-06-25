@@ -1,18 +1,27 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { Heading } from '@chakra-ui/react';
 import { useAppStore } from 'application/store';
 
-function Timer() {
-  const timerLimit = useAppStore((state) => state.timerLimit);
-  const [timerCount, setTimerCount] = useState(timerLimit);
+function Timer({ skipQuestion }) {
+  const timerCount = useAppStore((state) => state.timerCount);
+  const setTimerCount = useAppStore((state) => state.setTimerCount);
 
   useEffect(() => {
-    timerCount > 0 && setTimeout(() => setTimerCount(timerCount - 1), 1000);
+    const counterInterval = setInterval(() => setTimerCount(timerCount - 1), 1000);
     if (timerCount === 0) {
-      //   navigate('/score');
+      skipQuestion();
     }
+    return () => {
+      clearInterval(counterInterval);
+    };
   }, [timerCount]);
+
   return <Heading color={timerCount < 15 ? 'red.500' : 'black'}>{timerCount}</Heading>;
 }
+
+Timer.propTypes = {
+  skipQuestion: PropTypes.func,
+};
 
 export default Timer;

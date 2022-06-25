@@ -17,6 +17,8 @@ function Questions() {
   const incSkipped = useAppStore((state) => state.incSkipped);
   const playedCategories = useAppStore((state) => state.playedCategories);
   const submitCurrAnswer = useAppStore((state) => state.submitCurrAnswer);
+  const timerLimit = useAppStore((state) => state.timerLimit);
+  const setTimerCount = useAppStore((state) => state.setTimerCount);
 
   const {
     data: question,
@@ -49,6 +51,7 @@ function Questions() {
       navigate('/categories');
     } else {
       fetchNewQuestion();
+      setTimerCount(timerLimit);
     }
   };
 
@@ -61,20 +64,17 @@ function Questions() {
       navigate('/categories');
     } else {
       fetchNewQuestion();
+      setTimerCount(timerLimit);
     }
   };
 
   return (
     <Center flexDirection="column" h="100vh">
       <Stack width="60%" direction="column" gap={24}>
-        <Timer />
+        <Timer skipQuestion={skipQuestion} timerLimit={timerLimit} />
         <Center>
           <Skeleton width="60%" isLoaded={!(isLoadingQuestion || isFetchingQuestion) && question}>
-            <MCQuestion
-              title={question?.question}
-              type="MCQ"
-              answers={[question?.correct_answer, ...(question?.incorrect_answers || [])]}
-            />
+            <MCQuestion title={question?.question} type="MCQ" answers={question?.answers} />
           </Skeleton>
         </Center>
         <Center>
