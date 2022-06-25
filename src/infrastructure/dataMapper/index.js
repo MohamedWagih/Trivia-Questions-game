@@ -1,3 +1,5 @@
+import { shuffleArray } from 'infrastructure/utils';
+
 export const questionMapper = ({
   category,
   type,
@@ -12,6 +14,6 @@ export const questionMapper = ({
     difficulty,
     question,
     correct_answer,
-    incorrect_answers,
+    answers: shuffleArray([correct_answer, ...incorrect_answers]),
   };
 };
