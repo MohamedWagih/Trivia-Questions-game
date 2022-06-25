@@ -16,8 +16,9 @@ const immer = (config) => (set, get, api) =>
 const appStore = (set) => ({
   playerName: 'player',
   difficulty: 'mid',
-  selectedCategory: 'Random',
+  selectedCategory: '-1',
   timerCount: 60,
+  playedCategories: [],
   setPlayerName: (name) =>
     set((state) => {
       state.playerName = name;
@@ -36,6 +37,10 @@ const appStore = (set) => ({
   setTimerCount: (count) =>
     set((state) => {
       state.timerCount = count;
+    }),
+  playSelectedCategory: () =>
+    set((state) => {
+      state.playedCategories.push(state.selectedCategory);
     }),
 });
 
