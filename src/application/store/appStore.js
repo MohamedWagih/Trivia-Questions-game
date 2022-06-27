@@ -1,6 +1,6 @@
+import produce from 'immer';
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
-import produce from 'immer';
 
 // Turn the set method into an immer proxy
 const immer = (config) => (set, get, api) =>
@@ -28,6 +28,7 @@ const initialState = {
   },
   selectedAnswer: '',
   questionCounter: 0,
+  questionsTimes: [],
 };
 
 const appStore = (set) => ({
@@ -90,6 +91,7 @@ const appStore = (set) => ({
   incQuestionCounter: () =>
     set((state) => {
       state.questionCounter += 1;
+      state.questionsTimes.push(state.timerLimit - state.timerCount);
     }),
   setQuestionCounter: (counter) =>
     set((state) => {

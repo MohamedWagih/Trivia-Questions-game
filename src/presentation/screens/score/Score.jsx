@@ -10,6 +10,7 @@ function Score() {
   const playerName = useAppStore((store) => store.playerName);
   const totalPlayedTime = useAppStore((store) => store.totalPlayedTime);
   const score = useAppStore((store) => store.score);
+  const questionsTimes = useAppStore((store) => store.questionsTimes);
 
   return (
     <Center h="100vh">
@@ -22,8 +23,8 @@ function Score() {
             <Box bg="gray.300" padding={12}>
               <Center>
                 <Stack>
-                  <Heading textAlign="center" as="h3" size="lg">
-                    Time
+                  <Heading textAlign="center" as="h4" size="md">
+                    Total Time Played
                   </Heading>
                   <Heading as="h3" size="lg">
                     {secToHMS(totalPlayedTime)}
@@ -32,14 +33,45 @@ function Score() {
               </Center>
             </Box>
             <Box bg="gray.300" padding={12}>
-              <Chart
-                type="pie"
-                width="380"
-                options={{
-                  labels: ['correct', 'wrong', 'skipped'],
-                }}
-                series={[score.correct, score.wrong, score.skipped]}
-              />
+              <Center width="100%">
+                <Stack gap={6}>
+                  <Heading textAlign="center" as="h4" size="md">
+                    Answers Ratio
+                  </Heading>
+                  <Chart
+                    type="pie"
+                    width="380"
+                    options={{
+                      labels: ['correct', 'wrong', 'skipped'],
+                    }}
+                    series={[score.correct, score.wrong, score.skipped]}
+                  />
+                </Stack>
+              </Center>
+            </Box>
+            <Box bg="gray.300" padding={12}>
+              <Center width="100%">
+                <Stack gap={6}>
+                  <Heading textAlign="center" as="h4" size="md">
+                    Question Time
+                  </Heading>
+                  <Chart
+                    type="line"
+                    width="380"
+                    options={{
+                      chart: {
+                        id: 'questions-time',
+                      },
+                    }}
+                    series={[
+                      {
+                        name: 'question-time',
+                        data: questionsTimes,
+                      },
+                    ]}
+                  />
+                </Stack>
+              </Center>
             </Box>
           </Stack>
         </Center>
