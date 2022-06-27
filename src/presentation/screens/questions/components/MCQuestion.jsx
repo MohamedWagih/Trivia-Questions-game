@@ -1,8 +1,7 @@
+import { Center, Grid, Stack } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import React from 'react';
-import QuestionTitle from './QuestionTitle';
-import { Stack, Center, Grid } from '@chakra-ui/react';
 import Answers from './Answers';
+import QuestionTitle from './QuestionTitle';
 
 function MCQuestion({ title, answers = [] }) {
   return (

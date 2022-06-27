@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
 import { Button, ButtonGroup, Center, Skeleton, Stack } from '@chakra-ui/react';
 import { useAppStore } from 'application/store';
-import { useNavigate } from 'react-router-dom';
 import useGetQuestion from 'infrastructure/services/questions/useGetQuestion';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MCQuestion from './components/MCQuestion';
 import Timer from './components/Timer';
 
 function Questions() {
   const navigate = useNavigate();
+
   const incTotalPlayedTime = useAppStore((state) => state.incTotalPlayedTime);
   const selectedCategory = useAppStore((state) => state.selectedCategory);
   const difficulty = useAppStore((state) => state.difficulty);
@@ -41,10 +42,8 @@ function Questions() {
     setQuestionCounter(0);
   }, []);
 
-  const nextQuestion = () => {
+  const next = () => {
     incQuestionCounter();
-    submitCurrAnswer(question?.correct_answer);
-
     if (questionCounter === 2 && playedCategories.length === 3) {
       navigate('/score');
     } else if (questionCounter === 2) {
@@ -55,17 +54,14 @@ function Questions() {
     }
   };
 
+  const nextQuestion = () => {
+    submitCurrAnswer(question?.correct_answer);
+    next();
+  };
+
   const skipQuestion = () => {
-    incQuestionCounter();
     incSkipped();
-    if (questionCounter === 2 && playedCategories.length === 3) {
-      navigate('/score');
-    } else if (questionCounter === 2) {
-      navigate('/categories');
-    } else {
-      fetchNewQuestion();
-      setTimerCount(timerLimit);
-    }
+    next();
   };
 
   return (

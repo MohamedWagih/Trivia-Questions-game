@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
 import { Center, GridItem } from '@chakra-ui/react';
 import { useAppStore } from 'application/store';
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
 function Answers({ answers }) {
   const selectedAnswer = useAppStore((store) => store.selectedAnswer);
@@ -29,9 +29,7 @@ function Answers({ answers }) {
 }
 
 Answers.propTypes = {
-  answers: PropTypes.shape({
-    map: PropTypes.array,
-  }),
+  answers: PropTypes.array,
 };
 
 export default Answers;

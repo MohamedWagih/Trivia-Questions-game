@@ -1,7 +1,7 @@
-import { Routes, Route } from 'react-router-dom';
-import { Welcome, NotFound, Categories, Questions, Score } from 'presentation/screens';
+import { Categories, NotFound, Questions, Score, Welcome } from 'presentation/screens';
+import { Route, Routes } from 'react-router-dom';
 
-function App() {
+function AppLayout() {
   return (
     <div className="App">
       <Routes>
@@ -15,4 +15,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppLayout;

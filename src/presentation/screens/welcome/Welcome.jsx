@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
-import { Box, Center, Input, Grid, Button, RadioGroup, Stack, Radio } from '@chakra-ui/react';
+import { Box, Button, Center, Grid, Input, Radio, RadioGroup, Stack } from '@chakra-ui/react';
 import { useAppStore } from 'application/store';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Welcome() {
+  const navigate = useNavigate();
+
   const playerName = useAppStore((store) => store.playerName);
   const setPlayerName = useAppStore((store) => store.setPlayerName);
   const difficulty = useAppStore((store) => store.difficulty);
   const setDifficulty = useAppStore((store) => store.setDifficulty);
   const initStoreState = useAppStore((store) => store.initStoreState);
-  const navigate = useNavigate();
 
   useEffect(() => {
     initStoreState();

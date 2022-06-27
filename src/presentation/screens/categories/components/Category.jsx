@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { Center, Button } from '@chakra-ui/react';
+import { Button, Center } from '@chakra-ui/react';
 import { useAppStore } from 'application/store';
+import PropTypes from 'prop-types';
+import { useMemo } from 'react';
 
 function Category({ id, name }) {
   const selectedCategory = useAppStore((store) => store.selectedCategory);
   const setCategory = useAppStore((store) => store.setCategory);
   const playedCategories = useAppStore((store) => store.playedCategories);
+
   const isSelected = useMemo(() => selectedCategory === id, [selectedCategory]);
 
   return (

@@ -1,16 +1,16 @@
-import React from 'react';
-import { Center, Heading, Stack, Box, Button } from '@chakra-ui/react';
+import { Box, Button, Center, Heading, Stack } from '@chakra-ui/react';
 import { useAppStore } from 'application/store';
-import { useNavigate } from 'react-router-dom';
-import Chart from 'react-apexcharts';
 import { secToHMS } from 'infrastructure/utils';
+import Chart from 'react-apexcharts';
+import { useNavigate } from 'react-router-dom';
 
 function Score() {
   const navigate = useNavigate();
+
   const playerName = useAppStore((store) => store.playerName);
   const totalPlayedTime = useAppStore((store) => store.totalPlayedTime);
   const score = useAppStore((store) => store.score);
-  console.log('🚀 ~ Score ~ score', score);
+
   return (
     <Center h="100vh">
       <Stack gap={24}>
